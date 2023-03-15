@@ -33,6 +33,7 @@ export default async function generateCode(
   destination: string
 ): Promise<void> {
   try {
+    console.log(`Generate Code Called ^^^^^^^^^^^^^^`);
     const resourceData = await readInputJson(source);
     const { pluginInstallations } = resourceData;
 
@@ -60,6 +61,7 @@ export default async function generateCode(
     );
   } catch (err) {
     console.error(err);
+    console.log(`code generation failure ^^^^^^^^^^^^^^`);
     await httpClient.post(
       new URL(
         "build-runner/code-generation-failure",

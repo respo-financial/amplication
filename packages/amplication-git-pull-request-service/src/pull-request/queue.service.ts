@@ -11,7 +11,9 @@ export class QueueService {
     private readonly kafkaClient: ClientKafka,
     @Inject(AmplicationLogger)
     private readonly logger: LoggerService
-  ) {}
+  ) {
+    this.kafkaClient.connect();
+  }
 
   emitMessage(topic: string, message: string): void {
     const logger = this.logger;

@@ -25,6 +25,7 @@ export class BuildRunnerController {
     @Payload() dto: CodeGenerationSuccess
   ): Promise<void> {
     try {
+      console.log(`code-generation-success calling &&&&&&&&&&&&&&&`);
       await this.buildRunnerService.copyFromJobToArtifact(
         dto.resourceId,
         dto.buildId
@@ -34,6 +35,7 @@ export class BuildRunnerController {
         JSON.stringify({ buildId: dto.buildId })
       );
     } catch (error) {
+      console.log(`code-generation Error calling &&&&&&&&&&&&&&&`);
       console.error(error);
       await this.queueService.emitMessage(
         this.configService.get(Env.CODE_GENERATION_FAILURE_TOPIC),
@@ -75,7 +77,7 @@ export class BuildRunnerController {
         buildId: args.buildId,
       });
     } catch (error) {
-      console.error(error);
+      console.error(`Error is ${error}`);
       await this.queueService.emitMessage(
         this.configService.get(Env.CODE_GENERATION_FAILURE_TOPIC),
         JSON.stringify({ buildId: args?.buildId, error })

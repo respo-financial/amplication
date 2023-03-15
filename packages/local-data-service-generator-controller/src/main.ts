@@ -11,7 +11,7 @@ app.use(express.json());
 
 app.use("/api/code-generate", codeGenRouter);
 
-const port = process.env.PORT || 8888;
+const port = process.env.PORT || 8900;
 const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
 });

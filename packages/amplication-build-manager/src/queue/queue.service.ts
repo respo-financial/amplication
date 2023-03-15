@@ -8,7 +8,9 @@ export class QueueService {
   constructor(
     @Inject(KAFKA_CLIENT)
     private readonly kafkaClient: ClientKafka
-  ) {}
+  ) {
+    this.kafkaClient.connect();
+  }
 
   async emitMessage(topic: string, message: string): Promise<void> {
     return await new Promise((resolve, reject) => {

@@ -3,7 +3,7 @@
 exports[`createDataService creates app as expected 1`] = `
 Object {
   "test-ui/.env": "PORT=3001
-REACT_APP_SERVER_URL=http://localhost:3000",
+REACT_APP_SERVER_URL=http://15.206.155.97:3000",
   "test-ui/.gitignore": "# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
  
 # dependencies

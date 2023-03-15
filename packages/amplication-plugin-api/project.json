@@ -66,7 +66,7 @@
     "refresh:plugins": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "curl --location --request POST 'http://localhost:3005/graphql' --header 'Content-Type: application/json' --data-raw '{\"query\":\"mutation ProcessPluginCatalog {processPluginCatalog {  name  npm  versions {    version    updatedAt    deprecated  }}}\"}'",
+        "command": "curl --location --request POST 'http://15.206.155.97:3005/graphql' --header 'Content-Type: application/json' --data-raw '{\"query\":\"mutation ProcessPluginCatalog {processPluginCatalog {  name  npm  versions {    version    updatedAt    deprecated  }}}\"}'",
         "envFile": "packages/amplication-plugin-api/.env"
       },
       "configurations": {
