@@ -86,6 +86,7 @@ const Login = () => {
 
   const errorMessage = formatError(error);
 
+  console.log(`Login AUth Type ${REACT_APP_GITHUB_AUTH_ENABLED}`);
   return (
     <WelcomePage {...content}>
       <Helmet>
@@ -96,7 +97,7 @@ const Login = () => {
         <Form childrenAsBlocks>
           {urlError && <ErrorMessage errorMessage={urlError} />}
 
-          {REACT_APP_GITHUB_AUTH_ENABLED ? (
+          {/* {REACT_APP_GITHUB_AUTH_ENABLED ? (
             <>
               <div className={`${CLASS_NAME}__message`}>
                 Welcome to {content.name}. Please use your GitHub account to
@@ -110,7 +111,8 @@ const Login = () => {
                 </a>
               </div>
             </>
-          ) : (
+          ) :  */}
+          {
             <>
               {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
               <TextField
@@ -138,7 +140,7 @@ const Login = () => {
                 Do not have an account? <Link to="/signup">Sign up</Link>
               </div>
             </>
-          )}
+          }
 
           <div className={`${CLASS_NAME}__policy`}>
             By signing up to {content.name}, you agree to our{" "}
