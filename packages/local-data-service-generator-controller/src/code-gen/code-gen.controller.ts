@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Docker from "dockerode";
 import { CodeGenerationRequest } from "./types";
 import { exec } from "child_process";
+import path from "path";
 
 function generateCode(req: Request, res: Response) {
   const { resourceId, buildId } = req.body as CodeGenerationRequest;
@@ -27,16 +28,24 @@ function generateCode(req: Request, res: Response) {
 
   const hostMachineDsgFolder = `${process.cwd()}/${dsgJogsBaseFolder}/${buildId}`;
   console.log(`hostMachineDsgFolder is ${hostMachineDsgFolder}`);
-  const docker = new Docker();
 
-  const buildPath = "../../../../.amplication/dsg-jobs";
-
-  const command = `BUILD_MANAGER_URL=${buildMangerUrl} BUILD_ID=${buildId} RESOURCE_ID=${resourceId} BUILD_OUTPUT_PATH=${buildPath}${buildId}/code  BUILD_SPEC_PATH=${buildPath}${buildId}/input.json npx ts-node -P ../../../data-service-generator/tsconfig.app.json -r tsconfig-paths/register ../../../data-service-generator/src/main.ts`;
-
+  // const buildPath = "../../../../.amplication/dsg-jobs";
+  const buildPath = ".amplication/dsg-jobs";
+  // const buildPath = path.resolve(__dirname,'.amplication/dsg-jobs')
+  console.log(`buildPath is ${buildPath}`);
+  // const command = `BUILD_MANAGER_URL=${buildMangerUrl} BUILD_ID=${buildId} RESOURCE_ID=${resourceId} BUILD_OUTPUT_PATH=${buildPath}/${buildId}/code  BUILD_SPEC_PATH=${buildPath}/${buildId}/input.json npx ts-node -P ../../../data-service-generator/tsconfig.app.json -r tsconfig-paths/register ../../../data-service-generator/src/main.ts`;
+  const command = `BUILD_MANAGER_URL=${buildMangerUrl} BUILD_ID=${buildId} RESOURCE_ID=${resourceId} BUILD_OUTPUT_PATH=${buildPath}/${buildId}/code  BUILD_SPEC_PATH=${buildPath}/${buildId}/input.json npx ts-node -P ./packages/data-service-generator/tsconfig.app.json -r tsconfig-paths/register ./packages/data-service-generator/src/main.ts`;
   try {
     console.log(`running cmd ${command}`);
-    exec(command);
-    console.log("command executed successfully");
+    exec(command, (err, stdout, stderr) => {
+      if (err) {
+        console.log(`Cound not execute ${command} due to ${err.message}`);
+        return;
+      }
+      console.log(`stdout: ${stdout}`);
+      console.log(`stderr: ${stderr}`);
+    });
+    console.log("command executed");
   } catch (err) {
     console.log(`Error while running exec ${err}`);
   }

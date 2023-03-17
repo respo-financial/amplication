@@ -23,11 +23,12 @@ export class DiffService {
     previousAmplicationBuildId: string | undefined,
     newAmplicationBuildId: string
   ): Promise<File[]> {
+    console.log(`Present working dir is ${process.cwd()}`);
     const newBuildPath = this.buildsPathFactory.get(
       resourceId,
       newAmplicationBuildId
     );
-
+    console.log(`New Build path is ${newBuildPath} from buildsPathFactory`);
     DiffService.validateIfBuildExist(newBuildPath, newAmplicationBuildId);
 
     // If an old build folder does not exist, we return all new files
@@ -38,9 +39,8 @@ export class DiffService {
       resourceId,
       previousAmplicationBuildId
     );
-
-    //TODO: Exist Sync all paths have ../../ appended, FIX IT
-    if (!existsSync(`../../${oldBuildPath}`)) {
+    console.log(`Old Build path is ${oldBuildPath} from buildsPathFactory`);
+    if (!existsSync(`${oldBuildPath}`)) {
       this.logger.warn("Got a old build id but the folder does not exist", {
         resourceId,
         oldBuildPath,
@@ -54,27 +54,23 @@ export class DiffService {
       newAmplicationBuildId,
     });
     assert.notStrictEqual(
-      `../../${oldBuildPath}`,
-      `../../${newBuildPath}`,
+      `${oldBuildPath}`,
+      `${newBuildPath}`,
       "Cant get the same build id"
     );
 
     DiffService.validateIfBuildExist(
-      `../../${oldBuildPath}`,
+      `${oldBuildPath}`,
       previousAmplicationBuildId
     );
 
-    const res = await compare(
-      `../../${oldBuildPath}`,
-      `../../${newBuildPath}`,
-      {
-        compareContent: true,
-        compareDate: false,
-        compareSize: false,
-        compareSymlink: false,
-        skipEmptyDirs: true,
-      }
-    );
+    const res = await compare(`${oldBuildPath}`, `${newBuildPath}`, {
+      compareContent: true,
+      compareDate: false,
+      compareSize: false,
+      compareSymlink: false,
+      skipEmptyDirs: true,
+    });
 
     this.logger.debug("Finish the dir-compare lib process");
 
@@ -85,7 +81,7 @@ export class DiffService {
     const modules = mapDiffSetToPrModule(res.diffSet, [deleteFilesVisitor]);
 
     const resultModule = await Promise.all([
-      ...(await this.getAllModulesForPath(`../../${newBuildPath}`)),
+      ...(await this.getAllModulesForPath(`${newBuildPath}`)),
       ...modules,
     ]);
     return resultModule;
@@ -110,7 +106,8 @@ export class DiffService {
     buildPath: string,
     buildId: string
   ): void {
-    const isExisting = existsSync(`../../${buildPath}`);
+    console.log(`Build path is ${buildPath}`);
+    const isExisting = existsSync(`${buildPath}`);
     if (isExisting === false) {
       throw new MissingBuildFiles(buildId);
     }
