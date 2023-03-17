@@ -460,10 +460,11 @@ export class BuildService {
               BillingFeature.SmartGitSync
             );
 
-          const pullRequestMode = smartGitSyncEntitlement.hasAccess
-            ? EnumPullRequestMode.Accumulative
-            : EnumPullRequestMode.Basic;
+          // const pullRequestMode = smartGitSyncEntitlement.hasAccess
+          //   ? EnumPullRequestMode.Accumulative
+          //   : EnumPullRequestMode.Basic;
 
+          const pullRequestMode = EnumPullRequestMode.Basic;
           const createPullRequestArgs: SendPullRequestArgs = {
             gitOrganizationName: gitOrganization.name,
             gitRepositoryName: resourceRepository.name,

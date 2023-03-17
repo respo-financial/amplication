@@ -85,6 +85,23 @@
       "cwd": "${workspaceRoot}/packages/local-data-service-generator-controller"
     },
     {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug PR service",
+      "args": [
+        "${workspaceFolder}/packages/amplication-git-pull-request-service/src/main.ts"
+      ],
+      "runtimeArgs": [
+        "--nolazy",
+        "-r",
+        "ts-node/register",
+        "-r",
+        "tsconfig-paths/register"
+      ],
+      "sourceMaps": true,
+      "cwd": "${workspaceRoot}/packages/amplication-git-pull-request-service"
+    },
+    {
       "name": "Launch DSG",
       "type": "node",
       "request": "launch",
@@ -95,21 +112,30 @@
       }
     },
     {
+      "name": "Launch MAIN DSG",
+      "type": "node",
+      "request": "launch",
+      "args": [
+        "${workspaceFolder}/dist/packages/data-service-generator/src/main.js"
+      ],
+      "sourceMaps": true
+    },
+    {
       "type": "node",
       "name": "Debug DSG",
       "request": "launch",
       "runtimeArgs": [
         "run-script",
         "generate-code",
-        "--",
-        "/home/eugene/dsg-jobs/cl89zpn4p2454380vv8jw4thr81/input.json",
-        "/home/eugene/dsg-jobs/cl89zpn4p2454380vv8jw4thr81/output"
+        "--"
+        // "/home/eugene/dsg-jobs/cl89zpn4p2454380vv8jw4thr81/input.json",
+        // "/home/eugene/dsg-jobs/cl89zpn4p2454380vv8jw4thr81/output"
       ],
       "runtimeExecutable": "npm",
-      "skipFiles": ["<node_internals>/**"],
-      "env": {
-        "STATUS_UPDATE_URL": "https://2a08-77-252-192-146.eu.ngrok.io/generated-apps/update-action-step-status"
-      }
+      "skipFiles": ["<node_internals>/**"]
+      // "env": {
+      //   "STATUS_UPDATE_URL": "https://2a08-77-252-192-146.eu.ngrok.io/generated-apps/update-action-step-status"
+      // }
     },
     {
       "type": "node",

@@ -473,8 +473,9 @@ export class GithubService implements GitProvider {
     });
 
     const gitHubFiles = this.convertFilesToGitHubFiles(files);
-    const pr = await octokit.createPullRequest({
+    const pullReqObj: any = {
       owner,
+      base: "main",
       repo: repositoryName,
       title: pullRequestTitle,
       body: pullRequestBody,
@@ -487,7 +488,9 @@ export class GithubService implements GitProvider {
           commit: commitMessage,
         },
       ],
-    });
+    };
+    console.log(`pullReq Objet is ${JSON.stringify(pullReqObj)}`);
+    const pr = await octokit.createPullRequest(pullReqObj);
     if (pr === null) {
       throw new Error("We had a problem creating the pull request");
     }
